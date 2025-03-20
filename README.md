@@ -1,36 +1,55 @@
-# LIBSTM32-SW-TEMPLATE
+# LIBARENA-ALLOCATOR
 
-This repository serves as a template for libraries compatible with the
-[PlatformIO ecosystem](https://docs.platformio.org/en/latest/librarymanager/creating.html).
+This library implements a simple arena allocator using a dynamic memory array.
+
+## Arena Allocator
+
+An arena allocator is a specific type of dynamic memory allocator which stores
+a reference to the allocated items inside a collection, often called ***Arena***,
+and can only free all the memory at once.
+
+This type of allocator is one of the most simple and basic types of allocators
+since it handles memory management asserting that the allocated memory is always
+needed until deallocation, this can greatly reduce fragmentation without losing
+too much performance.
+
+The major backdraw of this type of system is that single items can't be deallocated
+without removing all the content inside the arena.
+
+> [!TIP]
+> Dynamic allocation is not considered a good practice in embedded systems,
+> expecially for critical applications, anyway if needed, as suggested
+> from important organizations (such as NASA), all the allocations should be
+> done once at the start of the program which is what the arena allocator
+> can do best.
 
 ## Usage
 
-Before starting to develop the library, a couple of things need to be done:
-1. Change this README explaining the library and the functionalities that it offers
-2. Modify the `library.json` including:
-    - The **name** of the library
-    - The library **version**
-    - The **description** explaining what the library does and for which devices
-    - The list of **keywords**
-    - The repository **url** (and type if necessary)
-    - The list of **authors**
-    - The supported **frameworks** and **platforms** (if needed)
-    - The list of **header files** of the library
-    - The list of **examples**
-    - The file of the library to **export** (if needed)
+To use this library include the `arena-allocator-api.h` header file inside your
+program, declare an arena allocator handler and initialize it with the appropriate
+function before any allocation.
 
-## Structure
+> [!IMPORTANT]
+> Remeber to free the arena memory at the end of the program, even if it never
+> ends.
 
-The code of the library should be splitted in sources which must be placed inside
-the `src` folder and headers which must be placed inside the `include` folder.
+```c
+int main(void) {
+    ArenaAllocatorHandler_t harena;
+    arena_allocator_api_init(&harena);
 
-Inside the `example` folder multiple source files should be placed to further
-explain how to use the library and how it works in different scenario.
+    // Do allocations here...
 
-The library must be tested with the maximum possible code coverage, the source
-code used to run the unit tests should be put inside the `test` folder.
+    arena_allocator_api_free(&harena);
+}
+```
 
-No other folders should be created besides the ones described before if not
-necessary, to handle complex file structures nested folders can be used.
+To allocate memory two methods are available:
+1. Allocation of a single element
+2. Allocation of multiple homogeneous elements (an array basically)
 
-For more info check the READMEs inside the corresponding folders.
+> [!NOTE]
+> Different allocations are not needed to use the same variable types, the
+> allocator is type agnostic and is based solely on the type size in bytes.
+
+For more info check the [examples](examples) folder.
