@@ -1,5 +1,12 @@
-#include "unity.h"
+/*!
+ * \file test-arena-allocator-api.c
+ * \date 2025-03-23
+ * \authors Antonio Gelain [antonio.gelain2@gmail.com]
+ *
+ * \brief Unit test for the arena allocator api.
+ */
 
+#include "unity.h"
 #include "arena-allocator-api.h"
 
 #include <malloc.h>
@@ -298,12 +305,13 @@ int main(void) {
     RUN_TEST(test_arena_allocator_api_item_push_address);
     RUN_TEST(test_arena_allocator_api_item_push_arena_size);
 
-    /*! @} /
+    /*! @} */
 
     /*! 
      * \addtogroup item_push_with_alloc Run test for item push with allocation
      * @{
      */
+
     RUN_TEST(test_arena_allocator_api_item_push_with_alloc_when_zero_capacity_arena_address);
     RUN_TEST(test_arena_allocator_api_item_push_with_alloc_when_zero_capacity_capacity);
     RUN_TEST(test_arena_allocator_api_item_push_with_alloc_when_full_arena_address);
@@ -311,7 +319,7 @@ int main(void) {
     RUN_TEST(test_arena_allocator_api_item_push_with_alloc_without_realloc_address);
     RUN_TEST(test_arena_allocator_api_item_push_with_alloc_without_realloc_arena_size);
 
-    /*! @} /
+    /*! @} */
 
     /*! 
      * \addtogroup init Run test for initialization
