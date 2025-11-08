@@ -12,10 +12,10 @@
 #include <malloc.h>
 
 /*! Function declaration needed to test the source only functions */
-void *_arena_allocator_api_item_push(ArenaAllocatorHandler_t *harena, size_t size);
-void *_arena_allocator_api_item_push_with_alloc(ArenaAllocatorHandler_t *harena, size_t size);
+void *_arena_allocator_api_item_push(struct ArenaAllocatorHandler *harena, size_t size);
+void *_arena_allocator_api_item_push_with_alloc(struct ArenaAllocatorHandler *harena, size_t size);
 
-ArenaAllocatorHandler_t harena;
+struct ArenaAllocatorHandler harena;
 
 void setUp(void) {
     arena_allocator_api_init(&harena);
@@ -128,7 +128,7 @@ void test_arena_allocator_api_init_with_null(void) {
 }
 
 void test_arena_allocator_api_init_values(void) {
-    ArenaAllocatorHandler_t expected = { 0 };
+    struct ArenaAllocatorHandler expected = { 0 };
     TEST_ASSERT_EQUAL_MEMORY(&expected, &harena, sizeof(expected));
 }
 

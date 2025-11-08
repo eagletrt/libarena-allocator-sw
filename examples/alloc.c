@@ -19,7 +19,7 @@
 /*!
  * \brief 3D vector structure
  *
- * \struct Vec3_t
+ * \struct Vec3
  * \var float x
  *      The x component of the vector
  * \var float y
@@ -27,24 +27,24 @@
  * \var float z
  *      The z component of the vector
  */
-typedef struct _Vec3_t {
+struct Vec3 {
     float x, y, z;
-} Vec3_t;
+};
 
 /*!
  * \brief Utility function to print the content of a 3d vector
  *
  * \param v[in] The vector to print
  */
-void print_vec3(Vec3_t *v) {
+void print_vec3(struct Vec3 *v) {
     printf("[%4.2f %4.2f %4.2f]", v->x, v->y, v->z);
 }
 
 int main(void) {
-    ArenaAllocatorHandler_t harena;
+    struct ArenaAllocatorHandler harena;
     arena_allocator_api_init(&harena);
 
-    Vec3_t *v = (Vec3_t *)arena_allocator_api_alloc(&harena, sizeof(*v));
+    struct Vec3 *v = (struct Vec3 *)arena_allocator_api_alloc(&harena, sizeof(*v));
     float *k = (float *)arena_allocator_api_alloc(&harena, sizeof(*k));
 
     /*! Initialization of the vector and scalar values */
@@ -58,7 +58,7 @@ int main(void) {
     printf(" = ");
 
     /*! Allocate and calculate a vector multiplication with a scalar value */
-    Vec3_t *w = (Vec3_t *)arena_allocator_api_alloc(&harena, sizeof(*w));
+    struct Vec3 *w = (struct Vec3 *)arena_allocator_api_alloc(&harena, sizeof(*w));
     w->x = v->x * (*k);
     w->y = v->y * (*k);
     w->z = v->z * (*k);

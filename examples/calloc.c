@@ -18,7 +18,7 @@
 #include "arena-allocator-api.h"
 
 int main(void) {
-    ArenaAllocatorHandler_t harena;
+    struct ArenaAllocatorHandler harena;
     arena_allocator_api_init(&harena);
 
     /*! Length of the two input signal and the resulting convolution */

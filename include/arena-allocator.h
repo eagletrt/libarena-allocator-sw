@@ -31,31 +31,31 @@
  * \note The memory allocated for the actual item data is not contained inside
  *      the allocator, only a reference is kept.
  *
- * \struct ArenaAllocatorItem_t
+ * \struct ArenaAllocatorItem
  * \var void * value
  *      A pointer to the allocated memory of the item.
  */
-typedef struct _ArenaAllocatorItem_t {
+struct ArenaAllocatorItem {
     void *value;
-} ArenaAllocatorItem_t;
+};
 
 /*!
  * \brief Handler structure of the arena allocator.
  * \details The handler contains all the information used to manage a dynamic
  *      array where the items are stored.
  *
- * \struct ArenaAllocatorHandler_t
+ * \struct ArenaAllocatorHandler
  * \var size_t size
  *      The total number of items currently stored inside the arena.
  * \var size_t capacity
  *      The maximium amount of items which can be stored inside the arena
  *      without allocation.
- * \var ArenaAllocatorItem_t * items
+ * \var ArenaAllocatorItem * items
  *      A pointer to the allocated array where all the arena items are stored.
  */
-typedef struct _ArenaAllocatorHandler_t {
+struct ArenaAllocatorHandler {
     size_t size, capacity;
-    ArenaAllocatorItem_t *items;
-} ArenaAllocatorHandler_t;
+    struct ArenaAllocatorItem *items;
+};
 
 #endif // ARENA_ALLOCATOR_H
