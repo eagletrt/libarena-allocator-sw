@@ -241,7 +241,7 @@ void test_arena_allocator_api_calloc_values(void) {
 /*! @} */
 
 /*!
- * \defgroup alloc Test allocation of multiple items
+ * \defgroup free Test deallocation
  * @{
  */
 
@@ -298,7 +298,7 @@ int main(void) {
     UNITY_BEGIN();
 
     /*!
-     * \addtogroup item_push Run test for item puh without allocation
+     * \ingroup item_push Run test for item puh without allocation
      * @{
      */
 
@@ -308,7 +308,7 @@ int main(void) {
     /*! @} */
 
     /*! 
-     * \addtogroup item_push_with_alloc Run test for item push with allocation
+     * \ingroup item_push_with_alloc Run test for item push with allocation
      * @{
      */
 
@@ -322,7 +322,7 @@ int main(void) {
     /*! @} */
 
     /*! 
-     * \addtogroup init Run test for initialization
+     * \ingroup init Run test for initialization
      * @{
      */
 
@@ -332,7 +332,7 @@ int main(void) {
     /*! @} */
 
     /*! 
-     * \addtogroup alloc Run test for allocation of a single item
+     * \ingroup alloc Run test for allocation of a single item
      * @{
      */
 
@@ -345,7 +345,7 @@ int main(void) {
     /*! @} */
 
     /*! 
-     * \addtogroup calloc Run test for allocation of multiple items
+     * \ingroup calloc Run test for allocation of multiple items
      * @{
      */
 
@@ -362,7 +362,7 @@ int main(void) {
     /*! @} */
 
     /*! 
-     * \addtogroup free Run test for deallocation
+     * \ingroup free Run test for deallocation
      * @{
      */
 

@@ -41,8 +41,8 @@ struct ArenaAllocatorItem {
  *      array where the items are stored.
  */
 struct ArenaAllocatorHandler {
-    size_t size; /*!< The total number of items currently stored inside the arena. */
-    size_t capacity; /*!< The maximum amount of items which can be stored inside the arena. */
+    size_t size;                      /*!< The total number of items currently stored inside the arena. */
+    size_t capacity;                  /*!< The maximum amount of items which can be stored inside the arena. */
     struct ArenaAllocatorItem *items; /*!< A pointer to the allocated array where all the arena items are stored. */
 };
 

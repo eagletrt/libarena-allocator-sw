@@ -47,7 +47,7 @@ jobs:
           for example in examples/*/; do
             if [ -d "$example" ]; then
               echo "Building $example"
-              pio ci "$example" --board native || true
+              pio ci "$example" --board native
             fi
           done
 
@@ -67,7 +67,7 @@ jobs:
         with:
           path: |
             ~/.cache/pip
-            ~/.platformio/.cache
+            ~/.platformio
           key: ${{ runner.os }}-pio-${{ hashFiles('**/platformio.ini') }}
 
       - name: Setup Python
