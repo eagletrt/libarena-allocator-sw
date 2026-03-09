@@ -1,6 +1,6 @@
 /*!
  * \file arena-allocator-api.c
- * \date 2025-03-01
+ * \date 2026-03-09
  * \authors Antonio Gelain [antonio.gelain2@gmail.com]
  *
  * \brief Simple implementation of an arena allocator.
@@ -35,7 +35,7 @@
  * \param[in] size   The size of the item to allocate in **bytes**.
  * \return A reference to the newly allocated item or NULL on failure.
  */
-void *_arena_allocator_api_item_push(struct ArenaAllocatorHandler *harena, size_t size) {
+void *prv_arena_allocator_api_item_push(struct ArenaAllocatorHandler *harena, size_t size) {
     assert(harena != NULL);
     assert(harena->size < harena->capacity);
     assert(size > 0);
@@ -59,7 +59,7 @@ void *_arena_allocator_api_item_push(struct ArenaAllocatorHandler *harena, size_
  * \param[in] size   The size of the item to allocate in **bytes**.
  * \return A reference to the newly allocated item or NULL on failure.
  */
-void *_arena_allocator_api_item_push_with_alloc(struct ArenaAllocatorHandler *harena, size_t size) {
+void *prv_arena_allocator_api_item_push_with_alloc(struct ArenaAllocatorHandler *harena, size_t size) {
     assert(harena != NULL);
     assert(size > 0);
 
@@ -89,7 +89,7 @@ void *_arena_allocator_api_item_push_with_alloc(struct ArenaAllocatorHandler *ha
         harena->items = items;
         harena->capacity *= 2U;
     }
-    return _arena_allocator_api_item_push(harena, size);
+    return prv_arena_allocator_api_item_push(harena, size);
 }
 
 void arena_allocator_api_init(struct ArenaAllocatorHandler *harena) {
@@ -101,7 +101,7 @@ void arena_allocator_api_init(struct ArenaAllocatorHandler *harena) {
 void *arena_allocator_api_alloc(struct ArenaAllocatorHandler *harena, size_t size) {
     if (harena == NULL || size == 0U)
         return NULL;
-    return _arena_allocator_api_item_push_with_alloc(harena, size);
+    return prv_arena_allocator_api_item_push_with_alloc(harena, size);
 }
 
 void *arena_allocator_api_calloc(struct ArenaAllocatorHandler *harena, size_t size, size_t count) {

@@ -1,6 +1,6 @@
 /*!
  * \file alloc.c
- * \date 2025-03-17
+ * \date 2026-03-09
  * \authors Antonio Gelain [antonio.gelain2@gmail.com]
  *
  * \brief Simple example of a vector-scalar multiplication with single
@@ -18,23 +18,17 @@
 
 /*!
  * \brief 3D vector structure
- *
- * \struct Vec3
- * \var float x
- *      The x component of the vector
- * \var float y
- *      The y component of the vector
- * \var float z
- *      The z component of the vector
  */
 struct Vec3 {
-    float x, y, z;
+    float x; /*!< The x component of the vector */
+    float y; /*!< The y component of the vector */
+    float z; /*!< The z component of the vector */
 };
 
 /*!
  * \brief Utility function to print the content of a 3d vector
  *
- * \param v[in] The vector to print
+ * \param[in] v The vector to print
  */
 void print_vec3(struct Vec3 *v) {
     printf("[%4.2f %4.2f %4.2f]", v->x, v->y, v->z);

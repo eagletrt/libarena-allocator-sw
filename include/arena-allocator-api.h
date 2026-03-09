@@ -1,6 +1,6 @@
 /*!
  * \file arena-allocator-api.h
- * \date 2025-03-01
+ * \date 2026-03-09
  * \authors Antonio Gelain [antonio.gelain2@gmail.com]
  *
  * \brief Simple implementation of an arena allocator.

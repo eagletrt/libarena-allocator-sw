@@ -1,6 +1,6 @@
 /*!
  * \file test-arena-allocator-api.c
- * \date 2025-03-23
+ * \date 2026-03-09
  * \authors Antonio Gelain [antonio.gelain2@gmail.com]
  *
  * \brief Unit test for the arena allocator api.
@@ -12,8 +12,8 @@
 #include <malloc.h>
 
 /*! Function declaration needed to test the source only functions */
-void *_arena_allocator_api_item_push(struct ArenaAllocatorHandler *harena, size_t size);
-void *_arena_allocator_api_item_push_with_alloc(struct ArenaAllocatorHandler *harena, size_t size);
+void *prv_arena_allocator_api_item_push(struct ArenaAllocatorHandler *harena, size_t size);
+void *prv_arena_allocator_api_item_push_with_alloc(struct ArenaAllocatorHandler *harena, size_t size);
 
 struct ArenaAllocatorHandler harena;
 
@@ -34,7 +34,7 @@ void test_arena_allocator_api_item_push_address(void) {
     const size_t size = sizeof(int);
     harena.items = malloc(size);
     harena.capacity = 1U;
-    void *item = _arena_allocator_api_item_push(&harena, size);
+    void *item = prv_arena_allocator_api_item_push(&harena, size);
     TEST_ASSERT_EQUAL_PTR(harena.items[0U].value, item);
 }
 
@@ -42,7 +42,7 @@ void test_arena_allocator_api_item_push_arena_size(void) {
     const size_t size = sizeof(int);
     harena.items = malloc(size);
     harena.capacity = 1U;
-    (void)_arena_allocator_api_item_push(&harena, size);
+    (void)prv_arena_allocator_api_item_push(&harena, size);
     TEST_ASSERT_EQUAL_size_t(1U, harena.size);
 }
 
@@ -55,13 +55,13 @@ void test_arena_allocator_api_item_push_arena_size(void) {
 
 void test_arena_allocator_api_item_push_with_alloc_when_zero_capacity_arena_address(void) {
     const size_t size = sizeof(int);
-    (void)_arena_allocator_api_item_push_with_alloc(&harena, size);
+    (void)prv_arena_allocator_api_item_push_with_alloc(&harena, size);
     TEST_ASSERT_NOT_NULL(harena.items);
 }
 
 void test_arena_allocator_api_item_push_with_alloc_when_zero_capacity_capacity(void) {
     const size_t size = sizeof(int);
-    (void)_arena_allocator_api_item_push_with_alloc(&harena, size);
+    (void)prv_arena_allocator_api_item_push_with_alloc(&harena, size);
     TEST_ASSERT_EQUAL_size_t(1U, harena.capacity);
 }
 
@@ -70,9 +70,9 @@ void test_arena_allocator_api_item_push_with_alloc_when_full_arena_address(void)
     /*! Test with power of two since the arena capacity doubles whenever it is full */
     const size_t n = 1U << 1U;
     for (size_t i = 0U; i < n; ++i)
-        (void)_arena_allocator_api_item_push_with_alloc(&harena, size);
+        (void)prv_arena_allocator_api_item_push_with_alloc(&harena, size);
 
-    (void)_arena_allocator_api_item_push_with_alloc(&harena, size);
+    (void)prv_arena_allocator_api_item_push_with_alloc(&harena, size);
     TEST_ASSERT_NOT_NULL(harena.items);
 }
 
@@ -81,9 +81,9 @@ void test_arena_allocator_api_item_push_with_alloc_when_full_capacity(void) {
     /*! Test with power of two since the arena capacity doubles whenever it is full */
     const size_t n = 1U << 1U;
     for (size_t i = 0U; i < n; ++i)
-        (void)_arena_allocator_api_item_push_with_alloc(&harena, size);
+        (void)prv_arena_allocator_api_item_push_with_alloc(&harena, size);
 
-    (void)_arena_allocator_api_item_push_with_alloc(&harena, size);
+    (void)prv_arena_allocator_api_item_push_with_alloc(&harena, size);
     TEST_ASSERT_EQUAL_size_t(n * 2U, harena.capacity);
 }
 
@@ -92,10 +92,10 @@ void test_arena_allocator_api_item_push_with_alloc_without_realloc_address(void)
     /*! Test with 3 items pushed so that the capacity is greater */
     const size_t n = 3U;
     for (size_t i = 0U; i < n; ++i)
-        (void)_arena_allocator_api_item_push_with_alloc(&harena, size);
+        (void)prv_arena_allocator_api_item_push_with_alloc(&harena, size);
 
     void *expected = harena.items;
-    (void)_arena_allocator_api_item_push_with_alloc(&harena, size);
+    (void)prv_arena_allocator_api_item_push_with_alloc(&harena, size);
     TEST_ASSERT_EQUAL_PTR(expected, harena.items);
 }
 
@@ -104,9 +104,9 @@ void test_arena_allocator_api_item_push_with_alloc_without_realloc_arena_size(vo
     /*! Test with 3 items pushed so that the capacity is greater */
     const size_t n = 3U;
     for (size_t i = 0U; i < n; ++i)
-        (void)_arena_allocator_api_item_push_with_alloc(&harena, size);
+        (void)prv_arena_allocator_api_item_push_with_alloc(&harena, size);
 
-    (void)_arena_allocator_api_item_push_with_alloc(&harena, size);
+    (void)prv_arena_allocator_api_item_push_with_alloc(&harena, size);
     TEST_ASSERT_EQUAL_size_t(n + 1, harena.size);
 }
 
@@ -241,7 +241,7 @@ void test_arena_allocator_api_calloc_values(void) {
 /*! @} */
 
 /*!
- * \defgroup calloc Test allocation of multiple items
+ * \defgroup alloc Test allocation of multiple items
  * @{
  */
 

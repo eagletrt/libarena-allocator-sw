@@ -1,6 +1,6 @@
 /*!
  * \file calloc.c
- * \date 2025-03-20
+ * \date 2026-03-09
  * \authors Antonio Gelain [antonio.gelain2@gmail.com]
  *
  * \brief Simple example of a signal convolution with multiple allocations of
