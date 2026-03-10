@@ -35,7 +35,7 @@ function before any allocation.
 
 ```c
 int main(void) {
-    ArenaAllocatorHandler_t harena;
+    struct ArenaAllocatorHandler harena;
     arena_allocator_api_init(&harena);
 
     // Do allocations here...

@@ -1,6 +1,6 @@
 /*!
  * \file calloc.c
- * \date 2025-03-20
+ * \date 2026-03-09
  * \authors Antonio Gelain [antonio.gelain2@gmail.com]
  *
  * \brief Simple example of a signal convolution with multiple allocations of
@@ -18,7 +18,7 @@
 #include "arena-allocator-api.h"
 
 int main(void) {
-    ArenaAllocatorHandler_t harena;
+    struct ArenaAllocatorHandler harena;
     arena_allocator_api_init(&harena);
 
     /*! Length of the two input signal and the resulting convolution */
@@ -27,8 +27,8 @@ int main(void) {
     const int C = N + M - 1;
 
     /*! Initialization of the two signals */
-    float * a = (float *)arena_allocator_api_calloc(&harena, N, sizeof(*a));
-    float * b = (float *)arena_allocator_api_calloc(&harena, M, sizeof(*b));
+    float *a = (float *)arena_allocator_api_calloc(&harena, N, sizeof(*a));
+    float *b = (float *)arena_allocator_api_calloc(&harena, M, sizeof(*b));
 
     printf("a = [ ");
     for (int i = 0; i < N; ++i) {
@@ -44,8 +44,9 @@ int main(void) {
     printf("]\n");
 
     /*! Initialization and calculation of the convolution */
-    float * c = (float *)arena_allocator_api_calloc(&harena, C, sizeof(*c));
-    for (int i = 0; i < C; ++i) c[i] = 0.f;
+    float *c = (float *)arena_allocator_api_calloc(&harena, C, sizeof(*c));
+    for (int i = 0; i < C; ++i)
+        c[i] = 0.f;
 
     for (int i = 0; i < C; ++i) {
         for (int j = 0; j < M; ++j) {
