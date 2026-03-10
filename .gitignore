@@ -419,8 +419,7 @@ STM32Make.make
 #in case git exclude is not used
 .local_gitignore
 
-### Doxygen ###
-html
-latex
+# Doxygen
+docs
 
 ## ---------------- END MANUALLY ADDED ---------------- ##
