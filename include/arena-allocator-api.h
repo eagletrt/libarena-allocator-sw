@@ -1,6 +1,6 @@
 /*!
  * \file arena-allocator-api.h
- * \date 2025-03-01
+ * \date 2026-03-09
  * \authors Antonio Gelain [antonio.gelain2@gmail.com]
  *
  * \brief Simple implementation of an arena allocator.
@@ -31,7 +31,7 @@
  *
  * \param[in] harena A reference to the arena allocator handler.
  */
-void arena_allocator_api_init(ArenaAllocatorHandler_t *harena);
+void arena_allocator_api_init(struct ArenaAllocatorHandler *harena);
 
 /*!
  * \brief Allocate a single item using the arena allocator.
@@ -42,7 +42,7 @@ void arena_allocator_api_init(ArenaAllocatorHandler_t *harena);
  * \param[in] size   The amount of memory to allocate in **bytes**.
  * \return A pointer to the allocated memory region or NULL on failure.
  */
-void *arena_allocator_api_alloc(ArenaAllocatorHandler_t *harena, size_t size);
+void *arena_allocator_api_alloc(struct ArenaAllocatorHandler *harena, size_t size);
 
 /*!
  * \brief Allocate multiple items at once using the arena allocator.
@@ -54,7 +54,7 @@ void *arena_allocator_api_alloc(ArenaAllocatorHandler_t *harena, size_t size);
  * \param[in] count  The number of items to allocate.
  * \return A pointer to the allocated memory region or NULL on failure.
  */
-void *arena_allocator_api_calloc(ArenaAllocatorHandler_t *harena, size_t size, size_t count);
+void *arena_allocator_api_calloc(struct ArenaAllocatorHandler *harena, size_t size, size_t count);
 
 /*!
  * \brief Free all the memory previously allocated by the arena allocator.
@@ -65,6 +65,6 @@ void *arena_allocator_api_calloc(ArenaAllocatorHandler_t *harena, size_t size, s
  *
  * \param[in] harena A reference to the arena allocator handler.
  */
-void arena_allocator_api_free(ArenaAllocatorHandler_t *harena);
+void arena_allocator_api_free(struct ArenaAllocatorHandler *harena);
 
 #endif // ARENA_ALLOCATOR_API_H

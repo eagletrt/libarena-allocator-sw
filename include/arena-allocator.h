@@ -1,6 +1,6 @@
 /*!
  * \file arena-allocator.h
- * \date 2025-03-01
+ * \date 2026-03-09
  * \authors Antonio Gelain [antonio.gelain2@gmail.com]
  *
  * \brief Simple implementation of an arena allocator.
@@ -30,32 +30,20 @@
  *
  * \note The memory allocated for the actual item data is not contained inside
  *      the allocator, only a reference is kept.
- *
- * \struct ArenaAllocatorItem_t
- * \var void * value
- *      A pointer to the allocated memory of the item.
  */
-typedef struct _ArenaAllocatorItem_t {
-    void *value;
-} ArenaAllocatorItem_t;
+struct ArenaAllocatorItem {
+    void *value; /*!< A pointer to the allocated memory of the item. */
+};
 
 /*!
  * \brief Handler structure of the arena allocator.
  * \details The handler contains all the information used to manage a dynamic
  *      array where the items are stored.
- *
- * \struct ArenaAllocatorHandler_t
- * \var size_t size
- *      The total number of items currently stored inside the arena.
- * \var size_t capacity
- *      The maximium amount of items which can be stored inside the arena
- *      without allocation.
- * \var ArenaAllocatorItem_t * items
- *      A pointer to the allocated array where all the arena items are stored.
  */
-typedef struct _ArenaAllocatorHandler_t {
-    size_t size, capacity;
-    ArenaAllocatorItem_t *items;
-} ArenaAllocatorHandler_t;
+struct ArenaAllocatorHandler {
+    size_t size;                      /*!< The total number of items currently stored inside the arena. */
+    size_t capacity;                  /*!< The maximum amount of items which can be stored inside the arena. */
+    struct ArenaAllocatorItem *items; /*!< A pointer to the allocated array where all the arena items are stored. */
+};
 
 #endif // ARENA_ALLOCATOR_H

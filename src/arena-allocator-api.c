@@ -1,6 +1,6 @@
 /*!
  * \file arena-allocator-api.c
- * \date 2025-03-01
+ * \date 2026-03-09
  * \authors Antonio Gelain [antonio.gelain2@gmail.com]
  *
  * \brief Simple implementation of an arena allocator.
@@ -35,7 +35,7 @@
  * \param[in] size   The size of the item to allocate in **bytes**.
  * \return A reference to the newly allocated item or NULL on failure.
  */
-void *_arena_allocator_api_item_push(ArenaAllocatorHandler_t *harena, size_t size) {
+void *prv_arena_allocator_api_item_push(struct ArenaAllocatorHandler *harena, size_t size) {
     assert(harena != NULL);
     assert(harena->size < harena->capacity);
     assert(size > 0);
@@ -43,7 +43,7 @@ void *_arena_allocator_api_item_push(ArenaAllocatorHandler_t *harena, size_t siz
     void *item = malloc(size);
     if (item == NULL)
         return NULL;
-    ArenaAllocatorItem_t *items = harena->items;
+    struct ArenaAllocatorItem *items = harena->items;
     items[harena->size].value = item;
     ++harena->size;
     return item;
@@ -59,7 +59,7 @@ void *_arena_allocator_api_item_push(ArenaAllocatorHandler_t *harena, size_t siz
  * \param[in] size   The size of the item to allocate in **bytes**.
  * \return A reference to the newly allocated item or NULL on failure.
  */
-void *_arena_allocator_api_item_push_with_alloc(ArenaAllocatorHandler_t *harena, size_t size) {
+void *prv_arena_allocator_api_item_push_with_alloc(struct ArenaAllocatorHandler *harena, size_t size) {
     assert(harena != NULL);
     assert(size > 0);
 
@@ -68,7 +68,7 @@ void *_arena_allocator_api_item_push_with_alloc(ArenaAllocatorHandler_t *harena,
          * If no memory is allocated for the array, it is allocated with a
          * capacity of 1.
          */
-        ArenaAllocatorItem_t *items = (ArenaAllocatorItem_t *)malloc(sizeof(ArenaAllocatorItem_t));
+        struct ArenaAllocatorItem *items = (struct ArenaAllocatorItem *)malloc(sizeof(struct ArenaAllocatorItem));
         if (items == NULL)
             return NULL;
         harena->items = items;
@@ -81,30 +81,30 @@ void *_arena_allocator_api_item_push_with_alloc(ArenaAllocatorHandler_t *harena,
          * For more info see:
          *  - https://cs.stackexchange.com/questions/9380/why-is-push-back-in-c-vectors-constant-amortized
          */
-        ArenaAllocatorItem_t *items = (ArenaAllocatorItem_t *)realloc(
+        struct ArenaAllocatorItem *items = (struct ArenaAllocatorItem *)realloc(
             harena->items,
-            harena->capacity * 2U * sizeof(ArenaAllocatorItem_t));
+            harena->capacity * 2U * sizeof(struct ArenaAllocatorItem));
         if (items == NULL)
             return NULL;
         harena->items = items;
         harena->capacity *= 2U;
     }
-    return _arena_allocator_api_item_push(harena, size);
+    return prv_arena_allocator_api_item_push(harena, size);
 }
 
-void arena_allocator_api_init(ArenaAllocatorHandler_t *harena) {
+void arena_allocator_api_init(struct ArenaAllocatorHandler *harena) {
     if (harena == NULL)
         return;
     memset(harena, 0, sizeof(*harena));
 }
 
-void *arena_allocator_api_alloc(ArenaAllocatorHandler_t *harena, size_t size) {
+void *arena_allocator_api_alloc(struct ArenaAllocatorHandler *harena, size_t size) {
     if (harena == NULL || size == 0U)
         return NULL;
-    return _arena_allocator_api_item_push_with_alloc(harena, size);
+    return prv_arena_allocator_api_item_push_with_alloc(harena, size);
 }
 
-void *arena_allocator_api_calloc(ArenaAllocatorHandler_t *harena, size_t size, size_t count) {
+void *arena_allocator_api_calloc(struct ArenaAllocatorHandler *harena, size_t size, size_t count) {
     /*!
      * Calloc function its just a shorthand to write alloc with a size equal to
      * size * count
@@ -114,7 +114,7 @@ void *arena_allocator_api_calloc(ArenaAllocatorHandler_t *harena, size_t size, s
     return arena_allocator_api_alloc(harena, size * count);
 }
 
-void arena_allocator_api_free(ArenaAllocatorHandler_t *harena) {
+void arena_allocator_api_free(struct ArenaAllocatorHandler *harena) {
     if (harena == NULL || harena->items == NULL)
         return;
     /*! Free all individual items */
