@@ -21,9 +21,9 @@
 #include "arena-allocator.h"
 #include "arena-allocator-api.h"
 
-#include <malloc.h>
 #include <assert.h>
 #include <string.h>
+#include <stdlib.h>
 
 /*!
  * \brief Creates a new item and adds it to the arena allocator array.
@@ -41,8 +41,9 @@ void *prv_arena_allocator_api_item_push(struct ArenaAllocatorHandler *harena, si
     assert(size > 0);
 
     void *item = malloc(size);
-    if (item == NULL)
+    if (item == NULL) {
         return NULL;
+    }
     struct ArenaAllocatorItem *items = harena->items;
     items[harena->size].value = item;
     ++harena->size;
@@ -68,9 +69,10 @@ void *prv_arena_allocator_api_item_push_with_alloc(struct ArenaAllocatorHandler 
          * If no memory is allocated for the array, it is allocated with a
          * capacity of 1.
          */
-        struct ArenaAllocatorItem *items = (struct ArenaAllocatorItem *)malloc(sizeof(struct ArenaAllocatorItem));
-        if (items == NULL)
+        struct ArenaAllocatorItem *items = (struct ArenaAllocatorItem *)malloc(sizeof(*items));
+        if (items == NULL) {
             return NULL;
+        }
         harena->items = items;
         harena->capacity = 1U;
     } else if (harena->size == harena->capacity) {
@@ -83,9 +85,10 @@ void *prv_arena_allocator_api_item_push_with_alloc(struct ArenaAllocatorHandler 
          */
         struct ArenaAllocatorItem *items = (struct ArenaAllocatorItem *)realloc(
             harena->items,
-            harena->capacity * 2U * sizeof(struct ArenaAllocatorItem));
-        if (items == NULL)
+            harena->capacity * 2U * sizeof(*items));
+        if (items == NULL) {
             return NULL;
+        }
         harena->items = items;
         harena->capacity *= 2U;
     }
@@ -93,14 +96,16 @@ void *prv_arena_allocator_api_item_push_with_alloc(struct ArenaAllocatorHandler 
 }
 
 void arena_allocator_api_init(struct ArenaAllocatorHandler *harena) {
-    if (harena == NULL)
+    if (harena == NULL) {
         return;
+    }
     memset(harena, 0, sizeof(*harena));
 }
 
 void *arena_allocator_api_alloc(struct ArenaAllocatorHandler *harena, size_t size) {
-    if (harena == NULL || size == 0U)
+    if (harena == NULL || size == 0U) {
         return NULL;
+    }
     return prv_arena_allocator_api_item_push_with_alloc(harena, size);
 }
 
@@ -109,19 +114,22 @@ void *arena_allocator_api_calloc(struct ArenaAllocatorHandler *harena, size_t si
      * Calloc function its just a shorthand to write alloc with a size equal to
      * size * count
      */
-    if (harena == NULL || size == 0U || count == 0U)
+    if (harena == NULL || size == 0U || count == 0U) {
         return NULL;
+    }
     return arena_allocator_api_alloc(harena, size * count);
 }
 
 void arena_allocator_api_free(struct ArenaAllocatorHandler *harena) {
-    if (harena == NULL || harena->items == NULL)
+    if (harena == NULL || harena->items == NULL) {
         return;
+    }
     /*! Free all individual items */
     for (size_t i = 0U; i < harena->size; ++i) {
         void *item = harena->items[i].value;
-        if (item != NULL)
+        if (item != NULL) {
             free(item);
+        }
     }
     /*! Free the arena allocator array */
     free(harena->items);
