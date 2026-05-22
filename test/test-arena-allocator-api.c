@@ -9,7 +9,7 @@
 #include "unity.h"
 #include "arena-allocator-api.h"
 
-#include <malloc.h>
+#include <stdlib.h>
 
 /*! Function declaration needed to test the source only functions */
 void *prv_arena_allocator_api_item_push(struct ArenaAllocatorHandler *harena, size_t size);
@@ -31,7 +31,7 @@ void tearDown(void) {
  */
 
 void test_arena_allocator_api_item_push_address(void) {
-    const size_t size = sizeof(int);
+    const size_t size = sizeof(*harena.items);
     harena.items = malloc(size);
     harena.capacity = 1U;
     void *item = prv_arena_allocator_api_item_push(&harena, size);
@@ -39,7 +39,7 @@ void test_arena_allocator_api_item_push_address(void) {
 }
 
 void test_arena_allocator_api_item_push_arena_size(void) {
-    const size_t size = sizeof(int);
+    const size_t size = sizeof(*harena.items);
     harena.items = malloc(size);
     harena.capacity = 1U;
     (void)prv_arena_allocator_api_item_push(&harena, size);
@@ -307,7 +307,7 @@ int main(void) {
 
     /*! @} */
 
-    /*! 
+    /*!
      * \ingroup item_push_with_alloc Run test for item push with allocation
      * @{
      */
@@ -321,7 +321,7 @@ int main(void) {
 
     /*! @} */
 
-    /*! 
+    /*!
      * \ingroup init Run test for initialization
      * @{
      */
@@ -331,7 +331,7 @@ int main(void) {
 
     /*! @} */
 
-    /*! 
+    /*!
      * \ingroup alloc Run test for allocation of a single item
      * @{
      */
@@ -344,7 +344,7 @@ int main(void) {
 
     /*! @} */
 
-    /*! 
+    /*!
      * \ingroup calloc Run test for allocation of multiple items
      * @{
      */
@@ -361,7 +361,7 @@ int main(void) {
 
     /*! @} */
 
-    /*! 
+    /*!
      * \ingroup free Run test for deallocation
      * @{
      */

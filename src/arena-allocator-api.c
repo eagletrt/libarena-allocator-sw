@@ -21,9 +21,9 @@
 #include "arena-allocator.h"
 #include "arena-allocator-api.h"
 
-#include <malloc.h>
 #include <assert.h>
 #include <string.h>
+#include <stdlib.h>
 
 /*!
  * \brief Creates a new item and adds it to the arena allocator array.
@@ -68,7 +68,7 @@ void *prv_arena_allocator_api_item_push_with_alloc(struct ArenaAllocatorHandler 
          * If no memory is allocated for the array, it is allocated with a
          * capacity of 1.
          */
-        struct ArenaAllocatorItem *items = (struct ArenaAllocatorItem *)malloc(sizeof(struct ArenaAllocatorItem));
+        struct ArenaAllocatorItem *items = (struct ArenaAllocatorItem *)malloc(sizeof(*items));
         if (items == NULL)
             return NULL;
         harena->items = items;
@@ -83,7 +83,7 @@ void *prv_arena_allocator_api_item_push_with_alloc(struct ArenaAllocatorHandler 
          */
         struct ArenaAllocatorItem *items = (struct ArenaAllocatorItem *)realloc(
             harena->items,
-            harena->capacity * 2U * sizeof(struct ArenaAllocatorItem));
+            harena->capacity * 2U * sizeof(*items));
         if (items == NULL)
             return NULL;
         harena->items = items;
